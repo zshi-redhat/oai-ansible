@@ -4,7 +4,7 @@ mysql_user: root
 mysql_pass: linux
 
 # git branch to track
-openaircn_version: feature-53-support-enterprise-linux-7-develop
+openaircn_version: feature-53-support-enterprise-linux-7-v0.4.0
 
 # mme configs
 MME_IPV4_ADDRESS_FOR_S1_MME: "10.0.1.2/24"

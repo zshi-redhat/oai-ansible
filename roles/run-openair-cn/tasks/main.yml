@@ -24,5 +24,5 @@
     tmux new -s {{ item }} -d ./{{ item }}
   when: "'{{ item }}' not in ps_output.stdout"
   args:
-    chdir: /usr/src/openair-cn/scripts
+    chdir: /usr/src/openair-cn/SCRIPTS
   with_items: "{{ run_processes }}"

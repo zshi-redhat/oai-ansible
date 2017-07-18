@@ -62,7 +62,7 @@
   shell: >
     yes | ./build_hss -i
   args:
-    chdir: /usr/src/openair-cn/scripts
+    chdir: /usr/src/openair-cn/SCRIPTS
     creates: /etc/.build_hss-deps-complete
 
 - name: Mark build_hss dependencies complete.
@@ -90,23 +90,23 @@
   args:
     creates: "{{ item.dest }}"
   with_items:
-    - src: /usr/src/openair-cn/etc/acl.conf
+    - src: /usr/src/openair-cn/ETC/acl.conf
       dest: /usr/local/etc/oai/freeDiameter/acl.conf
-    - src: /usr/src/openair-cn/etc/hss_fd.conf
+    - src: /usr/src/openair-cn/ETC/hss_fd.conf
       dest: /usr/local/etc/oai/freeDiameter/hss_fd.conf
 
 - name: Build hss certs
   shell: >
     ./check_hss_s6a_certificate /usr/local/etc/oai/freeDiameter hss.openair4G.eur
   args:
-    chdir: /usr/src/openair-cn/scripts
+    chdir: /usr/src/openair-cn/SCRIPTS
     creates: /usr/local/etc/oai/freeDiameter/hss.cert.pem
 
 - name: Run build_hss proper (actually builds binary)
   shell: >
     ./build_hss
   args:
-    chdir: /usr/src/openair-cn/scripts
+    chdir: /usr/src/openair-cn/SCRIPTS
     creates: /usr/local/bin/oai_hss
 
 - name: Show oai_db tables
@@ -118,17 +118,17 @@
 # Downside, it exists with 124 when it's doing the right thing.
 - name: Run the run_hss in intialization mode (which creates tables)
   shell: >
-    timeout 10 ./run_hss -i ../src/oai_hss/db/oai_db.sql &> /dev/null
+    timeout 10 ./run_hss -i ../SRC/OAI_HSS/db/oai_db.sql &> /dev/null
   ignore_errors: yes
   args:
-    chdir: /usr/src/openair-cn/scripts
+    chdir: /usr/src/openair-cn/SCRIPTS
   when: "'users' not in '{{ oaidb_tables.stdout }}'"
 
 - name: Run build_mme (in intialization mode)
   shell: >
     yes | ./build_mme -i
   args:
-    chdir: /usr/src/openair-cn/scripts
+    chdir: /usr/src/openair-cn/SCRIPTS
     creates: /etc/.build_mme-deps-complete
   
 - name: Mark build_mme dependencies complete.
@@ -140,21 +140,21 @@
   shell: >
     ./build_mme
   args:
-    chdir: /usr/src/openair-cn/scripts
+    chdir: /usr/src/openair-cn/SCRIPTS
     creates: /usr/local/bin/mme
 
 - name: Check mme certificates
   shell: >
     ./check_mme_s6a_certificate /usr/local/etc/oai/freeDiameter epc.openair4G.eur
   args:
-    chdir: /usr/src/openair-cn/scripts
+    chdir: /usr/src/openair-cn/SCRIPTS
     creates: /usr/local/etc/oai/freeDiameter/mme.key.pem
 
 - name: Run build_spgw (in intialization mode)
   shell: >
     yes | ./build_spgw -i
   args:
-    chdir: /usr/src/openair-cn/scripts
+    chdir: /usr/src/openair-cn/SCRIPTS
     creates: /etc/.build_spgw-deps-complete
 
 - name: Mark build_spgw dependencies complete.
@@ -166,7 +166,7 @@
   shell: >
     ./build_spgw
   args:
-    chdir: /usr/src/openair-cn/scripts
+    chdir: /usr/src/openair-cn/SCRIPTS
     creates: /usr/local/bin/spgw
 
 - name: Check values in oai_db.mmeidentity
