@@ -95,6 +95,26 @@
     - src: /usr/src/openair-cn/ETC/hss_fd.conf
       dest: /usr/local/etc/oai/freeDiameter/hss_fd.conf
 
+- name: Retrieve CA index.txt stat
+  stat:
+    path: /etc/pki/CA/index.txt
+  register: index_file
+
+- name: Retrieve CA serial stat
+  stat:
+    path: /etc/pki/CA/serial
+  register: serial_file
+
+- name: Create CA index.txt
+  shell: >
+    touch /etc/pki/CA/index.txt;
+  when: index_file.stat.exists == False
+
+- name: Create CA serial
+  shell: >
+    echo 1000 > /etc/pki/CA/serial
+  when: serial_file.stat.exists == False
+
 - name: Build hss certs
   shell: >
     ./check_hss_s6a_certificate /usr/local/etc/oai/freeDiameter hss.openair4G.eur
