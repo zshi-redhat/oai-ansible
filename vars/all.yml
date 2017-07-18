@@ -22,3 +22,9 @@ DEFAULT_DNS_SEC_IPV4_ADDRESS: "8.8.4.4"
 
 # oai sim
 oai_sim_version: develop
+mobile_network_code: "93"
+mme_ip_address_ipv4: "10.0.1.2"
+ENB_IPV4_ADDRESS_FOR_S1_MME: "10.0.1.3/24"
+ENB_IPV4_ADDRESS_FOR_S1U: "10.0.1.3/24"
+USIM_API_K: "8baf473f2f8fd09487cccbd7097c6862"
+OPC: "e734f8734007d6c5ce7a0508809e7e9c"

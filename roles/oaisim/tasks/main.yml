@@ -29,6 +29,13 @@
 
 #     sudo ./oaisim.Rel14 -O ../../targets/PROJECTS/GENERIC-LTE-EPC/CONF/enb.band7.generic.oaisim.local_mme.conf 
 
+- name: Disable firewalld
+  service:
+    name: firewalld
+    state: stopped
+    enabled: false
+  ignore_errors: yes
+
 - name: Install git
   yum:
     name: git
@@ -55,4 +62,25 @@
     dest: /etc/.build_oaisim-deps-complete
     state: directory
 
+- name: Load ue_ip kernel module
+  modprobe:
+    name: ue_ip.ko
+    state: present
+  args:
+    chdir: /usr/src/openairinterface5g/targets/bin
 
+- name: template sim configs
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - src: enb.band7.generic.oaisim.local_mme.conf.j2
+      dest: /usr/src/openairinterface5g/targets/PROJECTS/GENERIC-LTE-EPC/CONF/enb.band7.generic.oaisim.local_mme.conf
+    - src: ue_eurecom_test_sfr.conf.j2
+      dest: /usr/src/openairinterface5g/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf
+
+- name: Config ue data
+  shell: >
+    ./conf2uedata -c ue_eurecom_test_sfr.conf -o .
+  args:
+    chdir: /usr/src/openairinterface5g/openair3/NAS/TOOLS
