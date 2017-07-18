@@ -49,7 +49,7 @@
 
 - name: Build build_oai in install mode.
   shell: >
-    . oaienv;
+    source ./oaienv;
     cd cmake_targets/;
     ./build_oai -I;
     ./build_oai --oaisim
